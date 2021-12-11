@@ -1,14 +1,33 @@
 canvas {
-    position: absolute;
-    top: 0px;
+    display: block;
+    /* position: absolute; */
+    top: 10px;
     bottom: 0px;
     left: 0px;
     right: 0px;
     margin: auto;
+    margin-top: 20px;
     border: 1px solid #000;
  }
 
  .titulo {
      text-align: center;
      margin: auto;
+ }
+
+ .loja_usuario {
+    text-align: center;
+    display: inline-block; 
+    position: block;
+ }
+
+ table {
+     text-align: center; 
+     padding: 5px;
+     margin: auto;
+     margin-top: 20px;
+ }
+
+ table th, table td {
+     padding: 5px;
  }

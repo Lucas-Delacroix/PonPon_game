@@ -4,7 +4,7 @@ let frames = 0;
 let total_pulos = 1;
 let velocidade = 4;
 let estado_atual; 
-let moedas = 0;
+let saldo = 0;
 
 
 estados = {
@@ -104,8 +104,10 @@ obstaculos = {
             let obs  = this._obs[i];
             obs.x -= velocidade
 
+            /*ponpon.x < obs.x + obs.largura && ponpon.x + ponpon.largura >= obs.x && ponpon.y + ponpon.altura >= solo.y - obs.altura) {
+                estado_atual = estados.perdeu;*/
             if (ponpon.x < obs.x + obs.largura && ponpon.x + ponpon.largura >= obs.x && ponpon.y + ponpon.altura >= solo.y - obs.altura) {
-                estado_atual = estados.perdeu;
+                //estado_atual = estados.perdeu;
             }
 
             if (obs.x <= -obs.largura) {
@@ -132,20 +134,77 @@ obstaculos = {
 };
 
 moedas = {
-    moeda: [],
-    altura: 30,
-    largura: 30,
+    _moeda: [],
     cor: 'yellow',
+    tempoInsere: 0,
 
-    insere_moedas: function() {
+    insere: function() {
+        this._moeda.push({
+            x:720,
+            y: Math.floor(Math.random() * 300),
+            
+            
+            //largura: 30 + Math.floor(20 * Math.random()),
+            largura: 50,
+            altura: 50,
+            
+        });
 
+        this.tempoInsere = 250 + Math.floor(21 * Math.random()); //definir a distância dos obstaculos 
+    },
+
+    atualiza: function(){
+        if (this.tempoInsere == 0)
+            this.insere();
+        else
+            this.tempoInsere--;
+
+        for (var i = 0, tam = this._moeda.length; i < tam; i++) {
+            let moeda  = this._moeda[i];
+            moeda.x -= velocidade
+
+            if (ponpon.x == moeda.x + moeda.largura && ponpon.y <= moeda.y + moeda.altura && estado_atual == estados.jogando) {
+                saldo += 1;
+            }
+
+            if (moeda.x <= -moeda.largura) {
+                this._moeda.splice(i, 1);
+                tam--;
+                i--;
+            }
+
+        }
+    },
+
+    limpa: function() {
+        this._moeda = [];
     },
     
     desenha: function() {
-        ctx.fillStyle = this.cor;
-        ctx.fillRect(40, 20, this.largura, this.altura);
-    },
+        for (var i = 0, tam = this._moeda.length; i < tam; i++) {
+            let moeda = this._moeda[i];
+            ctx.fillStyle = this.cor;
+            ctx.fillRect(moeda.x, moeda.y, moeda.largura, moeda.altura);
+
+        }
+    }
 };
+
+item = {
+    id = 0,
+    nome = '',
+    preco = 0,
+
+    criar_item: function() {
+        this.id = 1;
+        this.nome = "Pulo Duplo";
+        this.preco = 20;
+    }
+}
+
+function comprar_item(id, saldo) {
+
+}
 
 function clicou(event) {
     if (estado_atual == estados.jogando) 
@@ -159,6 +218,7 @@ function clicou(event) {
     else if (estado_atual == estados.perdeu) {
         estado_atual = estados.jogar
         obstaculos.limpa()
+        moedas.limpa()
         ponpon.reset 
         ponpon.y = 0;
     }
@@ -177,12 +237,17 @@ function atualiza() {
     ponpon.atualiza();
     if (estado_atual == estados.jogando) 
         obstaculos.atualiza();
+        moedas.atualiza();
     
 }
 
 function desenha() {
     ctx.fillStyle = "#50beff";
     ctx.fillRect(0, 0, 720, 400);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "25px Arial";
+    ctx.fillText("Saldo: " + saldo, 600, 68);
 
     if (estado_atual == estados.jogar) {
         ctx.fillStyle = "green";
