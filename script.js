@@ -5,6 +5,68 @@ let total_pulos = 1;
 let velocidade = 4;
 let estado_atual; 
 let saldo = 0;
+let altura_tela = document.getElementById('canvas').clientHeight;
+let largura_tela = document.getElementById('canvas').clientWidth;
+
+
+function comprar_1() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível comprar enquanto está jogando!');
+        return
+    }
+    if (saldo >= 15) {
+        ponpon.puloforca += 1;
+        saldo -=15;
+    }
+    else {
+        alert('Você não tem moedas o suficiente para comprar esse item!');
+    }
+}
+
+function comprar_2() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível comprar enquanto está jogando!');
+        return
+    }
+    if (saldo >= 30) {
+        total_pulos = 2;
+        saldo -=30;
+    }
+    else {
+        alert('Você não tem moedas o suficiente para comprar esse item!');
+    }
+}
+
+function comprar_3() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível comprar enquanto está jogando!');
+        return
+    }
+    if (saldo >= 60) {
+        ponpon.vidas += 1;
+        saldo -= 60;
+    }
+    else {
+        alert('Você não tem moedas o suficiente para comprar esse item!');
+    }
+}
+
+
+function comprar_4() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível comprar enquanto está jogando!');
+        return
+    }
+    if (saldo >= 100) {
+        total_pulos = 3;
+        saldo -=100;
+    }
+    else {
+        alert('Você não tem moedas o suficiente para comprar esse item!');
+    }
+}
+
+
 
 
 estados = {
@@ -20,7 +82,7 @@ solo = {
 
     desenha: function() {
         ctx.fillStyle = this.cor;
-        ctx.fillRect(0, this.y, 720, this.altura);
+        ctx.fillRect(0, this.y, largura_tela, this.altura);
     }
 }
 
@@ -32,8 +94,9 @@ ponpon = {
     cor: '#ff4e4e',
     gravidade: 1.5,
     velocidade: 0,
-    puloforca: 30,
+    puloforca: 27,
     quantidade_pulos: 0,
+    vidas: 0,
 
     atualiza: function() {
         this.velocidade += this.gravidade;
@@ -62,19 +125,30 @@ ponpon = {
     desenha: function() {
         ctx.fillStyle = this.cor;
         ctx.fillRect(this.x, this.y, this.largura, this.altura);
-    }
+    },
+
+    perdeu: function() {
+        if (this.vidas <= 0) {
+            estado_atual = estados.perdeu;
+        }
+        this.vidas -= 1;
+        return vidas;
+    },
 };
 
 function main() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext("2d");
     document.body.appendChild(canvas);
-    document.addEventListener('mousedown', clicou);
+    window.addEventListener('keyup', clicou);
+    canvas.addEventListener('mousedown', clicou);
 
     estado_atual = estados.jogar;
 
     roda();
 }
+
+
 
 obstaculos = {
     _obs: [],
@@ -83,7 +157,7 @@ obstaculos = {
 
     insere: function() {
         this._obs.push({
-            x:720,
+            x:largura_tela,
             
             //largura: 30 + Math.floor(20 * Math.random()),
             largura: 30,
@@ -107,7 +181,8 @@ obstaculos = {
             /*ponpon.x < obs.x + obs.largura && ponpon.x + ponpon.largura >= obs.x && ponpon.y + ponpon.altura >= solo.y - obs.altura) {
                 estado_atual = estados.perdeu;*/
             if (ponpon.x < obs.x + obs.largura && ponpon.x + ponpon.largura >= obs.x && ponpon.y + ponpon.altura >= solo.y - obs.altura) {
-                //estado_atual = estados.perdeu;
+                estado_atual = estados.perdeu;
+                //ponpon.perdeu();
             }
 
             if (obs.x <= -obs.largura) {
@@ -140,7 +215,7 @@ moedas = {
 
     insere: function() {
         this._moeda.push({
-            x:720,
+            x:largura_tela,
             y: Math.floor(Math.random() * 300),
             
             
@@ -190,21 +265,7 @@ moedas = {
     }
 };
 
-item = {
-    id = 0,
-    nome = '',
-    preco = 0,
 
-    criar_item: function() {
-        this.id = 1;
-        this.nome = "Pulo Duplo";
-        this.preco = 20;
-    }
-}
-
-function comprar_item(id, saldo) {
-
-}
 
 function clicou(event) {
     if (estado_atual == estados.jogando) 
@@ -243,7 +304,7 @@ function atualiza() {
 
 function desenha() {
     ctx.fillStyle = "#50beff";
-    ctx.fillRect(0, 0, 720, 400);
+    ctx.fillRect(0, 0, largura_tela, altura_tela);
 
     ctx.fillStyle = "#fff";
     ctx.font = "25px Arial";
@@ -251,12 +312,12 @@ function desenha() {
 
     if (estado_atual == estados.jogar) {
         ctx.fillStyle = "green";
-        ctx.fillRect(720 / 2 - 50, 400 / 2 - 50, 100, 100);
+        ctx.fillRect(largura_tela / 2 - 50, altura_tela / 2 - 50, 100, 100);
     }
 
     else if (estado_atual == estados.perdeu) {
         ctx.fillStyle = "red";
-        ctx.fillRect(720 / 2 - 50, 400 / 2 - 50, 100, 100);
+        ctx.fillRect(largura_tela / 2 - 50, altura_tela / 2 - 50, 100, 100);
     }
 
     else if (estado_atual == estados.jogando) {

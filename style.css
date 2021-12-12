@@ -1,3 +1,13 @@
+:root {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
 canvas {
     display: block;
     /* position: absolute; */
@@ -15,10 +25,8 @@ canvas {
      margin: auto;
  }
 
- .loja_usuario {
-    text-align: center;
-    display: inline-block; 
-    position: block;
+ .id_loja {
+     display: none;
  }
 
  table {
