@@ -5,9 +5,13 @@ let total_pulos = 1;
 let velocidade = 4;
 let estado_atual; 
 let saldo = 0;
+let pontuacao = 0; 
+let poder;
+let preco_item; 
+let melhoria; 
 let altura_tela = document.getElementById('canvas').clientHeight;
 let largura_tela = document.getElementById('canvas').clientWidth;
-
+let sprite = new Image()
 
 function comprar_1() {
     if (estado_atual == estados.jogando) {
@@ -66,7 +70,15 @@ function comprar_4() {
     }
 }
 
+function comprar(id) {
+    if (id == 1) {
+        comprar_1(); 
+    }
+}
 
+function tutorial() {
+    alert('PonPon The Game\n-Tente conseguir sua pontuação mais alta!\n-Clique na tela ou aperta a tecla "espaço" para fazer PonPon pular.\n-Colete moedas para poder comprar itens na loja que te ajudarão a conseguir uma pontuação mais alta.\n-Se enconstar nos obstaculos você morre, mas seu saldo permanece!\n')
+}
 
 
 estados = {
@@ -97,6 +109,7 @@ ponpon = {
     puloforca: 27,
     quantidade_pulos: 0,
     vidas: 0,
+    pontuacao: 0,
 
     atualiza: function() {
         this.velocidade += this.gravidade;
@@ -119,11 +132,15 @@ ponpon = {
     reset: function() {
         this.velocidade = 0;
         this.y = 0;
+        this.pontuacao = 0;
 
     },
 
     desenha: function() {
+        sprite.src = 'img/teste.png';
         ctx.fillStyle = this.cor;
+        //sprite.onload=function{
+        //ctx.drawImage(sprite, this.x, this.y, this.largura, this.altura);};
         ctx.fillRect(this.x, this.y, this.largura, this.altura);
     },
 
@@ -185,7 +202,14 @@ obstaculos = {
                 //ponpon.perdeu();
             }
 
-            if (obs.x <= -obs.largura) {
+            else if (obs.x == 0) {
+                ponpon.pontuacao++;
+
+            }
+
+
+
+            else if (obs.x <= -obs.largura) {
                 this._obs.splice(i, 1);
                 tam--;
                 i--;
@@ -197,7 +221,9 @@ obstaculos = {
     limpa: function() {
         this._obs = [];
     },
+
     
+
     desenha: function() {
         for (var i = 0, tam = this._obs.length; i < tam; i++) {
             let obs = this._obs[i];
@@ -265,8 +291,6 @@ moedas = {
     }
 };
 
-
-
 function clicou(event) {
     if (estado_atual == estados.jogando) 
         ponpon.pula();
@@ -277,6 +301,7 @@ function clicou(event) {
     }
 
     else if (estado_atual == estados.perdeu) {
+        ponpon.pontuacao = 0;
         estado_atual = estados.jogar
         obstaculos.limpa()
         moedas.limpa()
@@ -307,8 +332,9 @@ function desenha() {
     ctx.fillRect(0, 0, largura_tela, altura_tela);
 
     ctx.fillStyle = "#fff";
-    ctx.font = "25px Arial";
+    ctx.font = "25px Monoespace";
     ctx.fillText("Saldo: " + saldo, 600, 68);
+    ctx.fillText("Pontos: " + ponpon.pontuacao, 600, 38)
 
     if (estado_atual == estados.jogar) {
         ctx.fillStyle = "green";
