@@ -5,13 +5,16 @@ let total_pulos = 1;
 let velocidade = 4;
 let estado_atual; 
 let saldo = 0;
+let multiplicador_moedas = 1;
+let multiplicador_pontos = 1;
 let pontuacao = 0; 
+let recorde = 0;
 let poder;
 let preco_item; 
 let melhoria; 
 let altura_tela = document.getElementById('canvas').clientHeight;
 let largura_tela = document.getElementById('canvas').clientWidth;
-let sprite = new Image()
+let sprite = new Image();
 
 function comprar_1() {
     if (estado_atual == estados.jogando) {
@@ -19,8 +22,9 @@ function comprar_1() {
         return
     }
     if (saldo >= 15) {
+        alert('A força do seu pulo foi aumentada!');
         ponpon.puloforca += 1;
-        saldo -=15;
+        saldo -=10;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -33,37 +37,42 @@ function comprar_2() {
         return
     }
     if (saldo >= 30) {
+        alert('Você agora pode pular duas vezes!');
+        ponpon.puloforca = 27;
         total_pulos = 2;
-        saldo -=30;
+        saldo -=20;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
     }
 }
-
-function comprar_3() {
-    if (estado_atual == estados.jogando) {
-        alert('Não é possível comprar enquanto está jogando!');
-        return
-    }
-    if (saldo >= 60) {
-        ponpon.vidas += 1;
-        saldo -= 60;
-    }
-    else {
-        alert('Você não tem moedas o suficiente para comprar esse item!');
-    }
-}
-
 
 function comprar_4() {
     if (estado_atual == estados.jogando) {
         alert('Não é possível comprar enquanto está jogando!');
         return
     }
+    if (saldo >= 20) {
+        alert('Você agora ganhará o dobro de moedas!');
+        multiplicador_moedas = 2;
+        saldo -= 20;
+    }
+    else {
+        alert('Você não tem moedas o suficiente para comprar esse item!');
+    }
+}
+
+
+function comprar_3() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível comprar enquanto está jogando!');
+        return
+    }
     if (saldo >= 100) {
+        alert('Você agora pode pular até 3 vezes!!!');
+        ponpon.puloforca = 20;
         total_pulos = 3;
-        saldo -=100;
+        saldo -=50;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -73,6 +82,18 @@ function comprar_4() {
 function comprar(id) {
     if (id == 1) {
         comprar_1(); 
+    }
+
+    else if (id == 2) {
+        comprar_2();
+    }
+
+    else if (id == 3) {
+        comprar_3();
+    }
+
+    else if (id == 4) {
+        comprar_4();
     }
 }
 
@@ -108,7 +129,6 @@ ponpon = {
     velocidade: 0,
     puloforca: 27,
     quantidade_pulos: 0,
-    vidas: 0,
     pontuacao: 0,
 
     atualiza: function() {
@@ -144,13 +164,6 @@ ponpon = {
         ctx.fillRect(this.x, this.y, this.largura, this.altura);
     },
 
-    perdeu: function() {
-        if (this.vidas <= 0) {
-            estado_atual = estados.perdeu;
-        }
-        this.vidas -= 1;
-        return vidas;
-    },
 };
 
 function main() {
@@ -178,7 +191,7 @@ obstaculos = {
             
             //largura: 30 + Math.floor(20 * Math.random()),
             largura: 30,
-            altura: 30 + Math.floor(120 * Math.random()),
+            altura: 25 + Math.floor(100 * Math.random()),
             cor: this.cores[Math.floor(5 * Math.random())]
         });
 
@@ -199,12 +212,10 @@ obstaculos = {
                 estado_atual = estados.perdeu;*/
             if (ponpon.x < obs.x + obs.largura && ponpon.x + ponpon.largura >= obs.x && ponpon.y + ponpon.altura >= solo.y - obs.altura) {
                 estado_atual = estados.perdeu;
-                //ponpon.perdeu();
             }
 
             else if (obs.x == 0) {
                 ponpon.pontuacao++;
-
             }
 
 
@@ -265,7 +276,7 @@ moedas = {
             moeda.x -= velocidade
 
             if (ponpon.x == moeda.x + moeda.largura && ponpon.y <= moeda.y + moeda.altura && estado_atual == estados.jogando) {
-                saldo += 1;
+                saldo += 1 * multiplicador_moedas;
             }
 
             if (moeda.x <= -moeda.largura) {
@@ -291,6 +302,11 @@ moedas = {
     }
 };
 
+function registrar_recorde() {
+    let texto_recorde = document.getElementById('recorde_valor');
+    texto_recorde.textContent=recorde;
+}
+
 function clicou(event) {
     if (estado_atual == estados.jogando) 
         ponpon.pula();
@@ -301,12 +317,17 @@ function clicou(event) {
     }
 
     else if (estado_atual == estados.perdeu) {
+        if (ponpon.pontuacao > recorde) {
+            recorde = ponpon.pontuacao;
+            registrar_recorde();
+        }
         ponpon.pontuacao = 0;
         estado_atual = estados.jogar
         obstaculos.limpa()
         moedas.limpa()
         ponpon.reset 
         ponpon.y = 0;
+        
     }
 }
 

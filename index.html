@@ -15,7 +15,7 @@
     <p class="textojogo"><a href="javascript:tutorial()">Clique aqui para abrir o tutorial do jogo.</a></p>
     <canvas id="canvas" width="720" height="400"> </canvas>
     <script src="script.js"></script>
-    <p class="textojogo" id="recorde">Sua pontuação mais alta é: </p>
+    <p class="textojogo" id="recorde">Sua pontuação mais alta é: <span id="recorde_valor"></span></p>
     
     <table>
         <tr>
@@ -27,28 +27,28 @@
         <tr>
             <td class="id_loja">1</td>
             <td>Aumentar Pulo</td>
-            <td>15</td>
-            <td><a onclick="comprar(1)">Comprar</a></td>
+            <td>10</td>
+            <td class="btncomprar"><a onclick="comprar(1)">Comprar</a></td>
         </tr>
         <tr>
             <td class="id_loja">2</td>
             <td>Pulo-Duplo</td>
-            <td>30</td>
-            <td><a onclick="comprar(2)">Comprar</a></td>
+            <td>20</td>
+            <td class="btncomprar"><a onclick="comprar(2)">Comprar</a></td>
         </tr>
         <tr>
             <td class="id_loja">3</td>
             <td>Pulo Triplo</td>
-            <td>100</td>
-            <td>
+            <td>50</td>
+            <td class="btncomprar">
                 <a onclick="comprar(3)">Comprar</a>
             </td>
         </tr>
         <tr>
             <td class="id_loja">4</td>
-            <td>Vida Extra</td>
-            <td>60</td>
-            <td>
+            <td>2x Moedas</td>
+            <td>20</td>
+            <td class="btncomprar">
                 <a onclick="comprar(4)">Comprar</a>
             </td>
         </tr>
