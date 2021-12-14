@@ -15,6 +15,27 @@ let melhoria;
 let altura_tela = document.getElementById('canvas').clientHeight;
 let largura_tela = document.getElementById('canvas').clientWidth;
 
+
+function mudar_velocidade() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível alterar enquanto está jogando!');
+        return
+    }
+    recebervelocidade = document.getElementById('vel').value;
+    velocidade = recebervelocidade;
+    document.getElementById('vel').value = '';
+}
+
+function hack_saldo() {
+    if (estado_atual == estados.jogando) {
+        alert('Não é possível alterar enquanto está jogando!');
+        return
+    }
+    valor_extra = parseInt(document.getElementById('hacksaldo').value);
+    saldo += valor_extra;
+    document.getElementById('hacksaldo').value = '';
+}
+
 function comprar_1() {
     preco_retirar = 10;
     if (estado_atual == estados.jogando) {
@@ -171,7 +192,6 @@ function main() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext("2d");
     document.body.appendChild(canvas);
-    window.addEventListener('keyup', clicou);
     canvas.addEventListener('mousedown', clicou);
     
     estado_atual = estados.jogar;

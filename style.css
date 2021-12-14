@@ -9,9 +9,20 @@ font-family: 'VT323', monospace;*/
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    
     user-select: none;
     font-family: 'Press Start 2P', cursive;
     background-color: #f1b83496;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 
@@ -75,4 +86,18 @@ canvas {
  #recorde {
      margin-top: 20px;
      font-size: 20px;
+ }
+
+ form {
+    text-align: center; 
+    margin: auto;
+ }
+
+ input {
+    text-align: center;
+    margin-top: 10px;
+    background-color: #d27bd8;
+    padding: 15px;
+    border: 2px solid #000;
+    border-radius: 5px;
  }

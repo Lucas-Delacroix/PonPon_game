@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PonPon</title>
     <link rel="stylesheet" href="style.css">
+
     
 </head>
 <body>
@@ -14,7 +15,10 @@
     <h4 class="textojogo">Por: Lucas Delacroix</h4>
     <p class="textojogo"><a href="javascript:tutorial()">Clique aqui para abrir o tutorial do jogo.</a></p>
     <canvas id="canvas" width="720" height="400"> </canvas>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    
     <p class="textojogo" id="recorde">Sua pontuação mais alta é: <span id="recorde_valor"></span></p>
     
     <table>
@@ -53,6 +57,18 @@
             </td>
         </tr>
     </table>
+
+    
+    <form onsubmit="event.preventDefault();">
+        <label for="vel">Velocidade:</label>
+        <input type="number" name="vel" id="vel">
+        <input type="submit" value="Alterar" onclick="mudar_velocidade();">
+        
+        <label for="hacksaldo">Hackear saldo:</label>
+        <input type="number" name="hacksaldo" id="hacksaldo">
+        <input type="submit" value="Alterar" onclick="hack_saldo();">
+    </form>
+
     
     
 </body> 
