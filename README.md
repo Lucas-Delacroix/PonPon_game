@@ -1,2 +1,2 @@
-# PonPon_game
-Projeto Final do Curso de Desenvolvimento Web I. Aluno: Lucas Delacroix, Prof: Renato Lenz 
+https://lucas-delacroix.github.io/PonPon_game/
+
