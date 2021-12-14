@@ -11,6 +11,7 @@ font-family: 'VT323', monospace;*/
     -ms-user-select: none;
     user-select: none;
     font-family: 'Press Start 2P', cursive;
+    background-color: #f1b83496;
 }
 
 
@@ -24,7 +25,7 @@ canvas {
     right: 0px;
     margin: auto;
     margin-top: 20px;
-    border: 1px solid #000;
+    border: 8px solid #68386C;
  }
 
  .textojogo {
@@ -37,6 +38,7 @@ canvas {
  }
 
  table {
+     background-color: #7E195E;
      border: 2px solid #000;
      text-align: center; 
      padding: 5px;
@@ -46,6 +48,7 @@ canvas {
  }
 
  table th, table td {
+     background-color: #d27bd8;
      padding: 15px;
      border: 2px solid #000;
      border-radius: 5px;
@@ -63,6 +66,10 @@ canvas {
  a {
      text-decoration: none;
      padding: 14px 25px;
+ }
+
+ a:hover {
+    background-color: #87338d;
  }
 
  #recorde {

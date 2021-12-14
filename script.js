@@ -17,14 +17,15 @@ let largura_tela = document.getElementById('canvas').clientWidth;
 let sprite = new Image();
 
 function comprar_1() {
+    preco_retirar = 10;
     if (estado_atual == estados.jogando) {
         alert('Não é possível comprar enquanto está jogando!');
         return
     }
-    if (saldo >= 15) {
+    if (saldo >= preco_retirar) {
         alert('A força do seu pulo foi aumentada!');
         ponpon.puloforca += 1;
-        saldo -=10;
+        saldo -= preco_retirar;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -32,15 +33,16 @@ function comprar_1() {
 }
 
 function comprar_2() {
+    preco_retirar = 20;
     if (estado_atual == estados.jogando) {
         alert('Não é possível comprar enquanto está jogando!');
         return
     }
-    if (saldo >= 30) {
+    if (saldo >= preco_retirar) {
         alert('Você agora pode pular duas vezes!');
-        ponpon.puloforca = 27;
+        ponpon.puloforca = 23;
         total_pulos = 2;
-        saldo -=20;
+        saldo -= preco_retirar;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -48,14 +50,15 @@ function comprar_2() {
 }
 
 function comprar_4() {
+    preco_retirar = 20; 
     if (estado_atual == estados.jogando) {
         alert('Não é possível comprar enquanto está jogando!');
         return
     }
-    if (saldo >= 20) {
+    if (saldo >= preco_retirar) {
         alert('Você agora ganhará o dobro de moedas!');
         multiplicador_moedas = 2;
-        saldo -= 20;
+        saldo -= preco_retirar;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -64,15 +67,16 @@ function comprar_4() {
 
 
 function comprar_3() {
+    preco_retirar = 50;
     if (estado_atual == estados.jogando) {
         alert('Não é possível comprar enquanto está jogando!');
         return
     }
-    if (saldo >= 100) {
+    if (saldo >= preco_retirar) {
         alert('Você agora pode pular até 3 vezes!!!');
         ponpon.puloforca = 20;
         total_pulos = 3;
-        saldo -=50;
+        saldo -= preco_retirar;
     }
     else {
         alert('Você não tem moedas o suficiente para comprar esse item!');
@@ -111,7 +115,7 @@ estados = {
 solo = {
     y: 350,
     altura: 50,
-    cor: "#ffdf70",
+    cor: "#975C0C",
 
     desenha: function() {
         ctx.fillStyle = this.cor;
@@ -124,7 +128,7 @@ ponpon = {
     y: 0,
     altura: 50,
     largura: 50,
-    cor: '#ff4e4e',
+    cor: '#7E195E',
     gravidade: 1.5,
     velocidade: 0,
     puloforca: 27,
@@ -353,18 +357,21 @@ function desenha() {
     ctx.fillRect(0, 0, largura_tela, altura_tela);
 
     ctx.fillStyle = "#fff";
-    ctx.font = "25px Monoespace";
-    ctx.fillText("Saldo: " + saldo, 600, 68);
-    ctx.fillText("Pontos: " + ponpon.pontuacao, 600, 38)
+    ctx.font = '25px Courier New';
+    ctx.fillText("Saldo:" + saldo, 565, 68);
+    ctx.fillText("Pontos:" + ponpon.pontuacao, 565, 38)
 
     if (estado_atual == estados.jogar) {
         ctx.fillStyle = "green";
-        ctx.fillRect(largura_tela / 2 - 50, altura_tela / 2 - 50, 100, 100);
+        ctx.font = '60px Courier New';
+        ctx.fillText("Clique para jogar!", 50, altura_tela / 2 + 25);
     }
 
     else if (estado_atual == estados.perdeu) {
         ctx.fillStyle = "red";
-        ctx.fillRect(largura_tela / 2 - 50, altura_tela / 2 - 50, 100, 100);
+        ctx.font = '60px Courier New';
+        ctx.fillText("Você perdeu!", 135, altura_tela / 2 + 25);
+        //ctx.fillRect(largura_tela / 2 - 50, altura_tela / 2 - 50, 100, 100);
     }
 
     else if (estado_atual == estados.jogando) {
