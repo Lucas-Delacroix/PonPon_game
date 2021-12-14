@@ -14,7 +14,6 @@ let preco_item;
 let melhoria; 
 let altura_tela = document.getElementById('canvas').clientHeight;
 let largura_tela = document.getElementById('canvas').clientWidth;
-let sprite = new Image();
 
 function comprar_1() {
     preco_retirar = 10;
@@ -102,7 +101,7 @@ function comprar(id) {
 }
 
 function tutorial() {
-    alert('PonPon The Game\n-Tente conseguir sua pontuação mais alta!\n-Clique na tela ou aperta a tecla "espaço" para fazer PonPon pular.\n-Colete moedas para poder comprar itens na loja que te ajudarão a conseguir uma pontuação mais alta.\n-Se enconstar nos obstaculos você morre, mas seu saldo permanece!\n')
+    alert('PonPon The Game\nArtista das pixel art preferiu não se identificar.\n-Tente conseguir sua pontuação mais alta!\n-Clique na tela ou aperta a tecla "espaço" para fazer PonPon pular.\n-Colete moedas para poder comprar itens na loja que te ajudarão a conseguir uma pontuação mais alta.\n-Se enconstar nos obstaculos você morre, mas seu saldo permanece!\n')
 }
 
 
@@ -115,7 +114,7 @@ estados = {
 solo = {
     y: 350,
     altura: 50,
-    cor: "#975C0C",
+    cor: "#4e2424",
 
     desenha: function() {
         ctx.fillStyle = this.cor;
@@ -161,11 +160,9 @@ ponpon = {
     },
 
     desenha: function() {
-        sprite.src = 'img/teste.png';
-        ctx.fillStyle = this.cor;
-        //sprite.onload=function{
-        //ctx.drawImage(sprite, this.x, this.y, this.largura, this.altura);};
-        ctx.fillRect(this.x, this.y, this.largura, this.altura);
+        let ponpon_sprite = new Image();
+        ponpon_sprite.src = 'img/ponpon.png';
+        ctx.drawImage(ponpon_sprite, this.x, this.y, this.largura, this.altura);
     },
 
 };
@@ -176,9 +173,8 @@ function main() {
     document.body.appendChild(canvas);
     window.addEventListener('keyup', clicou);
     canvas.addEventListener('mousedown', clicou);
-
+    
     estado_atual = estados.jogar;
-
     roda();
 }
 
@@ -186,7 +182,7 @@ function main() {
 
 obstaculos = {
     _obs: [],
-    cores: ["#ffbc1", "#ff1c1c", "#ff85e1", "#52a7ff", "#78ff5d"],
+    cores: ["#3A4466", "#357579", "#7E195E", "#68386C", "#68386C"],
     tempoInsere: 0,
 
     insere: function() {
@@ -297,10 +293,13 @@ moedas = {
     },
     
     desenha: function() {
+        let moeda_sprite = new Image();
+        moeda_sprite.src = 'img/moeda.png';
+
         for (var i = 0, tam = this._moeda.length; i < tam; i++) {
             let moeda = this._moeda[i];
-            ctx.fillStyle = this.cor;
-            ctx.fillRect(moeda.x, moeda.y, moeda.largura, moeda.altura);
+            ctx.drawImage(moeda_sprite, moeda.x, moeda.y, moeda.largura, moeda.altura);
+            //ctx.fillRect(moeda.x, moeda.y, moeda.largura, moeda.altura);
 
         }
     }
@@ -353,8 +352,13 @@ function atualiza() {
 }
 
 function desenha() {
-    ctx.fillStyle = "#50beff";
-    ctx.fillRect(0, 0, largura_tela, altura_tela);
+
+    //ctx.fillStyle = "#50beff";
+    
+    let fundo = new Image();
+    fundo.src = 'img/fundo.png';
+    ctx.drawImage(fundo, 0, 0, largura_tela, altura_tela);
+    //ctx.fillRect(0, 0, largura_tela, altura_tela);
 
     ctx.fillStyle = "#fff";
     ctx.font = '25px Courier New';
